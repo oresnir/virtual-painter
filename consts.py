@@ -1,6 +1,6 @@
 from enum import Enum
 
-folder_path = "Images"
+folder_path = "images"
 
 # image shape
 img_height = 720
