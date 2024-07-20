@@ -1,8 +1,8 @@
-import math
-
 import cv2
+import math
 import numpy as np
 import os
+
 import hand_tracking_moudle as htm
 from consts import folder_path, img_width, img_height, BrushSize, Colors, opacity, Shapes, Modes
 
@@ -13,11 +13,11 @@ color_index = {Colors.RED.value: 3, Colors.GREEN.value: 4, Colors.BLUE.value: 5,
 def selection_mode():
     global header, draw_color, draw_shape
     # Checking for the click
-    if y1 < 125:
-        if 100 < x1 < 250:
+    if y1 < 100:
+        if 100 < x1 < 200:
             header = header_images[1]
             draw_shape = Shapes.RECTANGLE.value
-        if 280 < x1 < 380:
+        if 250 < x1 < 350:
             header = header_images[2]
             draw_shape = Shapes.CIRCLE.value
         if 400 < x1 < 500:
@@ -128,7 +128,8 @@ def main():
         edit_img()
 
         # Setting the header image
-        img[0:125, 0:1280] = header
+        prev_img = img
+        img[0:70, 0:1280] = header
 
         # Adding the highlight
         img = cv2.addWeighted(img_highlight, opacity, img, 1 - opacity, 0)
@@ -152,8 +153,9 @@ def set_up():
     my_list = os.listdir(folder_path)
     header_images = []
     for img_path in my_list:
-        img = cv2.imread(f'{folder_path}/{img_path}')
-        header_images.append(img)
+        if img_path.endswith((".png", ".jpg")):
+            img = cv2.imread(f'{folder_path}/{img_path}')
+            header_images.append(img)
     header = header_images[0]
     draw_color = Colors.RED.value
     draw_shape = Shapes.LINE.value
